@@ -1,7 +1,7 @@
 {
-  "name": "electron-download-manager",
+  "name": "mtdm",
   "version": "0.0.1",
-  "description": "Electron download manager",
+  "description": "MultiTracks download manager",
   "main": "Gruntfile.js",
   "scripts": {
     "start": "electron ."

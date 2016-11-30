@@ -100,5 +100,9 @@ electron.ipcMain.on("playTestFile", function() {
     testDownload.resume();
 })
 electron.ipcMain.on("getProgress", function(event) {
-    event.sender.send("progress", testDownload.getReceivedBytes() / testDownload.getTotalBytes() * 100);
+    if (!testDownload.isDestroyed()){
+        event.sender.send("progress", testDownload.getReceivedBytes() / testDownload.getTotalBytes() * 100);
+    } else {
+        console.log("finished!");
+    }
 })

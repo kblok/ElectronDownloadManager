@@ -13,7 +13,14 @@
       </header>
 
       <section class="downloads">
-
+       
+        <div class="progress">
+          <div class="progress--bar js-progress"></div>
+          <div class="progress--controls">
+            <a href="javascript:pause()">Pause</a>
+            <a href="javascript:play()">Play</a>
+          </div>
+        </div>
       </section>
     </div>
     <footer class="main--footer footer">
@@ -29,8 +36,28 @@
     </footer>
   </body>
 
-  <script>
-    // You can also require other files to run in this process
-    require('./renderer.js');
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script>if (window.module) module = window.module;</script>
+
+  <script>  
+    var ipc = require('electron').ipcRenderer;
+    function pause() {
+        console.log("Pause");
+        ipc.send('pauseTestFile');
+    }
+    function play() {
+        console.log("Play");
+        ipc.send('playTestFile');
+    }
+
+    setInterval(function (){
+        ipc.send("getProgress");
+    }, 1000);
+
+    ipc.on('progress', (event, arg) => {
+        $(".js-progress").css("width", arg);
+    })
+
   </script>
 </html>

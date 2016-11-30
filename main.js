@@ -68,7 +68,6 @@ function loadFiles() {
     let win = new BrowserWindow()
     win.webContents.session.on('will-download', (event, item, webContents) => {
     // Set the save path, making Electron not to prompt a save dialog.
-    testDownload = item
     item.setSavePath('/tmp/save.pdf')
 
     item.on('updated', (event, state) => {
@@ -80,7 +79,11 @@ function loadFiles() {
             } else {
                 console.log(`Received bytes: ${item.getReceivedBytes()}`)
             }
-           senderWindow.send("progress", testDownload.getReceivedBytes() / testDownload.getTotalBytes() * 100);
+           senderWindow.send("progress", {
+               url: item.getURL(),
+                downloaded: item.getReceivedBytes(),
+                progress: item.getReceivedBytes() / item.getTotalBytes() * 100
+            });
         }
     });
     item.once('done', (event, state) => {
@@ -96,6 +99,8 @@ function loadFiles() {
 
 electron.ipcMain.on("addFile", function (sender, fileInfo) {
     mainWindow.webContents.downloadURL(fileInfo.url);
+    fileList.push(fileInfo);
+    senderWindow.send("fileAdded", fileInfo);
 })
 
 electron.ipcMain.on("pauseTestFile", function () {

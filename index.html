@@ -11,12 +11,12 @@
       <header class="header">
         <img class="header--logo" src="img/svg/mt-logo.svg" alt="" />
       </header>
-
+<a href="javascript:add()">Add File</a>
       <section class="downloads">
        
         <div class="progress">
           <div class="progress--title">
-             <a href="javascript:add()">Add File</a>
+             
             <span class="progress--title--name">Download Name Here</span>
             <span class="progress--title--size">
               <span class="js-size-current"></span>3MB/580MB
@@ -72,12 +72,11 @@
 
     ipc.on('progress', (event, arg) => {
       //$(".js-size-current").text(Math.round(arg * 100) / 100);
-      $(".js-progress").css("width", arg + "%");
+      $(".js-progress").css("width", arg.progress + "%");
     })
 
-    ipc.on('fileAdded', (event, arg) => {
-        $(".js-progress").css("width", arg);
-        $(".js-progress").html(arg);
+    ipc.on('fileAdded', (event, newFile) => {
+      console.log(newFile);
     })
 
     function add() {

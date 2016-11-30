@@ -2,18 +2,35 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>MultiTracks Download Manager</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css" media="screen" >
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="main">
+      <header class="header">
+        <img class="header--logo" src="img/svg/mt-logo.svg" alt="" />
+      </header>
+
+      <section class="downloads">
+
+      </section>
+    </div>
+    <footer class="main--footer footer">
+      <div class="footer--nav">
+        <a href="#">Go to MultiTracks.com</a>
+        <a href="#">View my Account</a>
+        <a href="#">Go to Downloads List</a>
+      </div>
+      <div class="footer--nav mod-right">
+        <a href="#">Support</a>
+        <a href="#">Contact</a>
+      </div>
+    </footer>
   </body>
 
   <script>
     // You can also require other files to run in this process
-    require('./renderer.js')
+    require('./renderer.js');
   </script>
 </html>

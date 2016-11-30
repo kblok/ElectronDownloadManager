@@ -2,7 +2,7 @@
   "name": "electron-download-manager",
   "version": "0.0.1",
   "description": "Electron download manager",
-  "main": "main.js",
+  "main": "Gruntfile.js",
   "scripts": {
     "start": "electron ."
   },
@@ -14,9 +14,18 @@
     "tutorial",
     "demo"
   ],
-  "author": "kblok",
+  "author": "kblok-dcress",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "electron-rebuild": "^1.4.0",
+    "grunt": "0.4.5",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-copy": "0.8.1",
+    "grunt-contrib-cssmin": "0.14.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.1.0",
+    "grunt-svg-sprite": "1.2.13"
   }
 }

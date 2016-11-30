@@ -19,6 +19,7 @@
           <div class="progress--controls">
             <a href="javascript:pause()">Pause</a>
             <a href="javascript:play()">Play</a>
+             <a href="javascript:add()">Add File</a>
           </div>
         </div>
       </section>
@@ -59,5 +60,26 @@
         $(".js-progress").css("width", arg);
     })
 
+    ipc.on('fileAdded', (event, arg) => {
+        $(".js-progress").css("width", arg);
+        $(".js-progress").html(arg);
+    })
+
+    function add() {
+      const {dialog} = require('electron').remote
+      var fs = require('fs');
+
+      dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']}, function (filePaths) {
+        for(var file in filePaths) {
+          fs.readFile(filePaths[0], { encoding: "utf8" }, function (err, data) {
+            if(!err) {
+              ipc.send("addFile", JSON.parse(data));
+            } else {
+              console.log("Error : " + err);
+            }
+          });
+        }
+      });
+    }
   </script>
 </html>

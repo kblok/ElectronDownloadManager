@@ -59,6 +59,7 @@ app.on('activate', function () {
   }
 })
 
+var fileList = [];
 
 function loadFiles() {
     // In the main process.
@@ -89,8 +90,12 @@ function loadFiles() {
         }
     });
     })
-    win.webContents.downloadURL("http://ipv4.download.thinkbroadband.com:8080/1GB.zip");
+    
 }
+
+electron.ipcMain.on("addFile", function (sender, fileInfo) {
+    mainWindow.webContents.downloadURL(fileInfo.url);
+})
 
 electron.ipcMain.on("pauseTestFile", function () {
     testDownload.pause();
@@ -100,7 +105,7 @@ electron.ipcMain.on("playTestFile", function() {
     testDownload.resume();
 })
 electron.ipcMain.on("getProgress", function(event) {
-    if (!testDownload.isDestroyed()){
+    if (testDownload && !testDownload.isDestroyed()){
         event.sender.send("progress", testDownload.getReceivedBytes() / testDownload.getTotalBytes() * 100);
     } else {
         console.log("finished!");

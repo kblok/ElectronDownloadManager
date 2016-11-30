@@ -1,0 +1,22 @@
+{
+  "name": "electron-download-manager",
+  "version": "0.0.1",
+  "description": "Electron download manager",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/kblok/electron-download-manager",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "kblok",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}

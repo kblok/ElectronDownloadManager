@@ -10,6 +10,7 @@ const url = require('url')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let testDownload
 
 function createWindow () {
   // Create the browser window.
@@ -32,6 +33,8 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+  loadFiles();
+   
 }
 
 // This method will be called when Electron has finished
@@ -56,5 +59,46 @@ app.on('activate', function () {
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+
+function loadFiles() {
+    // In the main process.
+    // In the main process.
+    const {BrowserWindow} = require('electron')
+    let win = new BrowserWindow()
+    win.webContents.session.on('will-download', (event, item, webContents) => {
+    // Set the save path, making Electron not to prompt a save dialog.
+    testDownload = item
+    item.setSavePath('/tmp/save.pdf')
+
+    item.on('updated', (event, state) => {
+        if (state === 'interrupted') {
+        console.log('Download is interrupted but can be resumed')
+        } else if (state === 'progressing') {
+        if (item.isPaused()) {
+            console.log('Download is paused')
+        } else {
+            console.log(`Received bytes: ${item.getReceivedBytes()}`)
+        }
+        }
+    });
+    item.once('done', (event, state) => {
+        if (state === 'completed') {
+        console.log('Download successfully')
+        } else {
+        console.log(`Download failed: ${state}`)
+        }
+    });
+    })
+    win.webContents.downloadURL("http://ipv4.download.thinkbroadband.com:8080/1GB.zip");
+}
+
+electron.ipcMain.on("pauseTestFile", function () {
+    testDownload.pause();
+})
+
+electron.ipcMain.on("playTestFile", function() {
+    testDownload.resume();
+})
+electron.ipcMain.on("getProgress", function(event) {
+    event.sender.send("progress", testDownload.getReceivedBytes() / testDownload.getTotalBytes() * 100);
+})

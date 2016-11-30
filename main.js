@@ -75,11 +75,12 @@ function loadFiles() {
         if (state === 'interrupted') {
         console.log('Download is interrupted but can be resumed')
         } else if (state === 'progressing') {
-        if (item.isPaused()) {
-            console.log('Download is paused')
-        } else {
-            console.log(`Received bytes: ${item.getReceivedBytes()}`)
-        }
+            if (item.isPaused()) {
+                console.log('Download is paused')
+            } else {
+                console.log(`Received bytes: ${item.getReceivedBytes()}`)
+            }
+           senderWindow.send("progress", testDownload.getReceivedBytes() / testDownload.getTotalBytes() * 100);
         }
     });
     item.once('done', (event, state) => {
@@ -110,4 +111,9 @@ electron.ipcMain.on("getProgress", function(event) {
     } else {
         console.log("finished!");
     }
+})
+
+var senderWindow;
+electron.ipcMain.on("registerWindow", function(event) {
+    senderWindow = event.sender;
 })

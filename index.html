@@ -15,10 +15,22 @@
       <section class="downloads">
        
         <div class="progress">
-          <div class="progress--bar js-progress"></div>
-          <div class="progress--controls">
-            <a href="javascript:pause()">Pause</a>
-            <a href="javascript:play()">Play</a>
+          <div class="progress--title">
+            <span class="progress--title--name">Download Name Here</span>
+            <span class="progress--title--size">
+              <span class="js-size-current"></span>3MB/580MB
+            </span>
+          </div>
+          <div class="progress--holder">
+            <div style="width: 0" class="progress--bar js-progress"></div>
+            <div class="progress--controls">
+              <a class="progress--controls--btn js-btn-pause" href="javascript:pause()">
+                <img src="img/svg/icon-pause.svg"/>
+              </a>
+              <a class="progress--controls--btn js-btn-play" href="javascript:play()" style="display: none;" >
+                <img src="img/svg/icon-play.svg"/>
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -44,19 +56,21 @@
     var ipc = require('electron').ipcRenderer;
     function pause() {
         console.log("Pause");
+        $(".js-btn-pause").hide();
+        $(".js-btn-play").show();
         ipc.send('pauseTestFile');
     }
     function play() {
         console.log("Play");
+        $(".js-btn-pause").show();
+        $(".js-btn-play").hide();
         ipc.send('playTestFile');
     }
-
-    setInterval(function (){
-        ipc.send("getProgress");
-    }, 1000);
+    ipc.send("registerWindow");
 
     ipc.on('progress', (event, arg) => {
-        $(".js-progress").css("width", arg);
+      //$(".js-size-current").text(Math.round(arg * 100) / 100);
+      $(".js-progress").css("width", arg + "%");
     })
 
   </script>

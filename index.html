@@ -11,12 +11,10 @@
       <header class="header">
         <img class="header--logo" src="img/svg/mt-logo.svg" alt="" />
       </header>
-<a href="javascript:add()">Add File</a>
-      <section class="downloads">
+      <section class="downloads js-downloads-list">
        
-        <div class="progress">
+        <!--<div class="progress">
           <div class="progress--title">
-             
             <span class="progress--title--name">Download Name Here</span>
             <span class="progress--title--size">
               <span class="js-size-current"></span>3MB/580MB
@@ -32,9 +30,13 @@
                 <img src="img/svg/icon-play.svg"/>
               </a>
             </div>
-
           </div>
-        </div>
+        </div>-->
+
+      </section>
+
+      <section>
+        <a class="add-file-btn" href="javascript:add()">Add File</a>
       </section>
     </div>
     <footer class="main--footer footer">
@@ -51,27 +53,64 @@
 
   <script>  
     var ipc = require('electron').ipcRenderer;
-    function pause() {
-        console.log("Pause");
-        $(".js-btn-pause").hide();
-        $(".js-btn-play").show();
-        ipc.send('pauseTestFile');
+    function pause(element) {
+        var urlElement = element.closest(".js-data-url"), 
+            url        = urlElement.attr("data-url");
+
+        urlElement.find(".js-btn-pause").hide();
+        urlElement.find(".js-btn-play").show();
+        ipc.send('pause', url);
     }
-    function play() {
+    function play(element) {
         console.log("Play");
         $(".js-btn-pause").show();
         $(".js-btn-play").hide();
-        ipc.send('playTestFile');
+        //ipc.send('playTestFile');
     }
     ipc.send("registerWindow");
 
     ipc.on('progress', (event, arg) => {
-      //$(".js-size-current").text(Math.round(arg * 100) / 100);
+      if ($(".js-size-total").length > 0) {
+        $(".js-size-total").text(arg.total);
+      }
+      $(".js-size-current").text(arg.current);
       $(".js-progress").css("width", arg.progress + "%");
     })
 
+    $(".js-downloads-list").on("click", ".js-btn-pause", function(event){
+      pause($(this));
+      event.preventDefault();
+    });
+    
+    $(".js-downloads-list").on("click", ".js-btn-play", function(event){
+      play($(this));
+      event.preventDefault();
+    });
+
     ipc.on('fileAdded', (event, newFile) => {
-      console.log(newFile);
+      //newFile
+      var html = "<div class='progress js-data-url' data-url='" + newFile.url + "'>" +
+                    "<div class='progress--title'>" +
+                      "<span class='progress--title--name'>" + newFile.title + "</span>" +
+                      "<span class='progress--title--size'>" +
+                        "<span class='js-size-current'>0</span>" +
+                        "/<span class='js-size-total'>0</span>" +
+                      "</span>" +
+                    "</div>" +
+                    "<div class='progress--holder'>" +
+                      "<div style='width: 0' class='progress--bar js-progress'></div>" +
+                      "<div class='progress--controls'>" +
+                        "<a class='progress--controls--btn js-btn-pause' href=''>" +
+                          "<img src='img/svg/icon-pause.svg'/>" +
+                        "</a>"
+                        "<a class='progress--controls--btn js-btn-play' href='' style='display: none;' >" +
+                          "<img src='img/svg/icon-play.svg'/>" +
+                        "</a>" +
+                      "</div>" +
+                    "</div>" +
+                  "</div>";
+                  
+       $(".js-downloads-list").append(html);
     })
 
     function add() {
@@ -92,3 +131,24 @@
     }
   </script>
 </html>
+
+
+
+          
+            
+            
+              
+            
+          
+          
+            
+            
+              
+                
+              
+              
+                
+              
+            
+          
+        

@@ -161,3 +161,21 @@ html {
   }
 }
 
+.add-file-btn {
+  width: 50%;
+  margin: 20px 25%;
+  float: left;
+  background: #43B1E6;
+  color: #fff;
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition: all .08s ease-in-out;
+    -moz-transition: all .08s ease-in-out;
+    transition: all .08s ease-in-out;
+
+  &:hover {
+    background: darken(#43B1E6, 10%);
+  }
+}

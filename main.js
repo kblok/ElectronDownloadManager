@@ -14,7 +14,7 @@ let testDownload
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 280, height: 446})
+  mainWindow = new BrowserWindow({width: 600, height: 446})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -80,9 +80,11 @@ function loadFiles() {
                 console.log(`Received bytes: ${item.getReceivedBytes()}`)
             }
            senderWindow.send("progress", {
-               url: item.getURL(),
+                url: item.getURL(),
                 downloaded: item.getReceivedBytes(),
-                progress: item.getReceivedBytes() / item.getTotalBytes() * 100
+                progress: item.getReceivedBytes() / item.getTotalBytes() * 100, 
+                total: item.getTotalBytes(), 
+                current: item.getReceivedBytes()
             });
         }
     });
@@ -103,12 +105,16 @@ electron.ipcMain.on("addFile", function (sender, fileInfo) {
     senderWindow.send("fileAdded", fileInfo);
 })
 
-electron.ipcMain.on("pauseTestFile", function () {
-    testDownload.pause();
+electron.ipcMain.on("pause", function () {
+    if (testDownload && !testDownload.isDestroyed()){
+        testDownload.pause();
+    } else {
+
+    }
 })
 
 electron.ipcMain.on("playTestFile", function() {
-    testDownload.resume();
+    //testDownload.resume();
 })
 electron.ipcMain.on("getProgress", function(event) {
     if (testDownload && !testDownload.isDestroyed()){

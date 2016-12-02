@@ -14,7 +14,7 @@ let testDownload
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 600, height: 446})
+  mainWindow = new BrowserWindow({width: 600, height: 446, titleBarStyle: 'hidden-inset', "min-width": 600, "min-height": 446, "max-height": 600, "max-width": 446})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

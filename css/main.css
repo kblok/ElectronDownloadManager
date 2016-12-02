@@ -19,10 +19,10 @@ html {
   height: 100vh;
   padding-bottom: 80px; }
   .main--footer {
-    height: 80px;
+    height: 65px;
     float: left;
     width: 100%;
-    margin-top: -80px;
+    margin-top: -65px;
     background: #333;
     color: #fff;
     padding: 10px 15px; }
@@ -31,7 +31,7 @@ html {
   color: rgba(255, 255, 255, 0.89); }
   .footer--nav {
     float: left;
-    margin-top: 20px;
+    margin-top: 12px;
     width: 100%;
     text-align: center; }
     .footer--nav a {
@@ -47,7 +47,7 @@ html {
   background: #333;
   color: rgba(255, 255, 255, 0.89);
   float: left;
-  padding: 26px 15px;
+  padding: 36px 15px 16px;
   text-align: center; }
   .header--logo {
     max-width: 232px;
